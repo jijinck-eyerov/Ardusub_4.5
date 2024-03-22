@@ -428,7 +428,9 @@ bool NavEKF2_core::setOriginLLH(const Location &loc)
 {
     if (PV_AidingMode == AID_ABSOLUTE && !extNavUsedForPos) {
         // reject attempts to set the origin if GPS is being used
-        return false;
+        // return false;
+        GCS_SEND_TEXT(MAV_SEVERITY_INFO, "origin set already");   
+    
     }
 
     return setOrigin(loc);
@@ -440,7 +442,8 @@ bool NavEKF2_core::setOrigin(const Location &loc)
 {
     // if the origin is valid reject setting a new origin
     if (validOrigin) {
-        return false;
+        // return false;
+        GCS_SEND_TEXT(MAV_SEVERITY_INFO, "origin set already");   
     }
 
     EKF_origin = loc;
