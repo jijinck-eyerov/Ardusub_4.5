@@ -4,7 +4,6 @@
 
 #define LEAKDETECTOR_MAX_INSTANCES 3
 
-#define LEAKDETECTOR_COOLDOWN_MS 3000 // Status will return true for this long after last time leak was detected
 
 class AP_LeakDetector_Backend;
 
@@ -44,6 +43,7 @@ private:
 
     bool _status; // Current status, true if leak detected, false if all sensors dry
     uint32_t _last_detect_ms;
+    uint32_t _last_clear_ms;
 
     enum _signal_types {
         DISABLED=-1,
@@ -53,4 +53,8 @@ private:
     AP_Int8 _type[LEAKDETECTOR_MAX_INSTANCES]; // Signal type configured at the input pin (analog, digital, disabled)
     AP_Int8 _pin[LEAKDETECTOR_MAX_INSTANCES]; // Pin that detector is connected to
     AP_Int8 _default_reading[LEAKDETECTOR_MAX_INSTANCES]; // Default reading when leak detector is dry
+    AP_Int16 _warmup_ms;
+    AP_Int16 _cooldown_ms;
+
+
 };

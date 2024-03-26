@@ -283,7 +283,7 @@ void Sub::failsafe_leak_check()
 
     // We have a leak
     // Always send a warning every 20 seconds
-    if (tnow > failsafe.last_leak_warn_ms + 20000) {
+    if (tnow > failsafe.last_leak_warn_ms +  g.failsafe_warning_interval) {
         failsafe.last_leak_warn_ms = tnow;
         gcs().send_text(MAV_SEVERITY_CRITICAL, "Leak Detected");
     }

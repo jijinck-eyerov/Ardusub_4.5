@@ -76,13 +76,30 @@ const AP_Param::GroupInfo AP_LeakDetector::var_info[] = {
     // @RebootRequired: True
     AP_GROUPINFO("3_TYPE", 9, AP_LeakDetector, _type[2], DISABLED),
 #endif
+    // @Param: _WARMUP_MS
+    // @DisplayName: Warmup period of the leak detector in milliseconds
+    // @Description: Minimum duration for which the leak detector should be active for it to be considered a valid leak
+    // @Units: ms
+    // @Range: 1 32767
+    // @User: Standard
+    AP_GROUPINFO("_WARMUP_MS", 7, AP_LeakDetector, _warmup_ms, 10000),
+
+    // @Param: _COOLDOWN_MS
+    // @DisplayName: Cooldown period of the leak detector in milliseconds
+    // @Description: Duration for which the leak detector output remains active once the leak condition is cleared 
+    // @Units: ms
+    // @Range: 1 32767
+    // @User: Standard
+    AP_GROUPINFO("_COOLDOWN_MS", 8, AP_LeakDetector, _cooldown_ms, 3000),
 
     AP_GROUPEND
+
 };
 
 AP_LeakDetector::AP_LeakDetector() :
     _status(false),
-    _last_detect_ms(0)
+    _last_detect_ms(0),
+    _last_clear_ms(0)
 {
     AP_Param::setup_object_defaults(this, var_info);
 
@@ -125,17 +142,30 @@ void AP_LeakDetector::init()
 bool AP_LeakDetector::update()
 {
     uint32_t tnow = AP_HAL::millis();
-
+    uint8_t status_updated_count = 0;
     for (int i = 0; i < LEAKDETECTOR_MAX_INSTANCES; i++) {
         if (_drivers[i] != NULL) {
+            status_updated_count++;
             _drivers[i]->read();
             if (_state[i].status) {
                 _last_detect_ms = tnow;
+            } 
+            else {
+                 _last_clear_ms = tnow;
             }
+
         }
     }
+    if(status_updated_count == 0) {
+        _status = false;
+        return _status;
+    }
 
-    _status = tnow < _last_detect_ms + LEAKDETECTOR_COOLDOWN_MS;
+    if (_status == true) {
+        _status = (tnow < _last_detect_ms + _cooldown_ms);
+            } else {
+        _status =  (tnow > _last_clear_ms + _warmup_ms);
+    }
 
     return _status;
 }
