@@ -137,6 +137,14 @@ const AP_Param::Info Sub::var_info[] = {
     // @User: Standard
     GSCALAR(failsafe_pilot_input_timeout, "FS_PILOT_TIMEOUT", 3.0f),
 
+    // @Param: FS_WARN_INTERVAL
+    // @DisplayName: Interval between failsafe warning messages
+    // @Description: Controls the interval between consecutive failsafe warning messages sent to the GCS
+    // @Units: ms
+    // @Range: 1 32767
+    // @User: Standard
+    GSCALAR(failsafe_warning_interval, "FS_WARN_INTERVAL", 15000),
+
     // @Param: XTRACK_ANG_LIM
     // @DisplayName: Crosstrack correction angle limit
     // @Description: Maximum allowed angle (in degrees) between current track and desired heading during waypoint navigation
