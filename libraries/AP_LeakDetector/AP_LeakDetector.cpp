@@ -82,7 +82,7 @@ const AP_Param::GroupInfo AP_LeakDetector::var_info[] = {
     // @Units: ms
     // @Range: 1 32767
     // @User: Standard
-    AP_GROUPINFO("_WARMUP_MS", 7, AP_LeakDetector, _warmup_ms, 10000),
+    //AP_GROUPINFO("_WARMUP_MS", 7, AP_LeakDetector, _warmup_ms, 10000),
 
     // @Param: _COOLDOWN_MS
     // @DisplayName: Cooldown period of the leak detector in milliseconds
@@ -90,7 +90,7 @@ const AP_Param::GroupInfo AP_LeakDetector::var_info[] = {
     // @Units: ms
     // @Range: 1 32767
     // @User: Standard
-    AP_GROUPINFO("_COOLDOWN_MS", 8, AP_LeakDetector, _cooldown_ms, 3000),
+    //AP_GROUPINFO("_COOLDOWN_MS", 8, AP_LeakDetector, _cooldown_ms, 3000),
 
     AP_GROUPEND
 
@@ -109,6 +109,8 @@ AP_LeakDetector::AP_LeakDetector() :
 
 void AP_LeakDetector::init()
 {
+    _warmup_ms = 10000;
+    _cooldown_ms = 3000;
     for (int i = 0; i < LEAKDETECTOR_MAX_INSTANCES; i++) {
         switch (_pin[i]) {
 #if (CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_CHIBIOS_FMUV3 || \
