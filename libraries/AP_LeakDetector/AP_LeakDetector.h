@@ -53,8 +53,7 @@ private:
     AP_Int8 _type[LEAKDETECTOR_MAX_INSTANCES]; // Signal type configured at the input pin (analog, digital, disabled)
     AP_Int8 _pin[LEAKDETECTOR_MAX_INSTANCES]; // Pin that detector is connected to
     AP_Int8 _default_reading[LEAKDETECTOR_MAX_INSTANCES]; // Default reading when leak detector is dry
-    uint32_t _warmup_ms;
-    uint32_t _cooldown_ms;
-
+    AP_Int16 _warmup_ms;
+    AP_Int16 _cooldown_ms;
 
 };
