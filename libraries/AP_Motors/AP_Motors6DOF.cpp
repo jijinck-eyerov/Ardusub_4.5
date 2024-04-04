@@ -118,6 +118,26 @@ const AP_Param::GroupInfo AP_Motors6DOF::var_info[] = {
     // @User: Standard
     AP_GROUPINFO("12_DIRECTION", 13, AP_Motors6DOF, _motor_reverse[11], 1),
 
+    // Custom motor gain adjust
+
+    AP_GROUPINFO("1MOTOR_G_ADJ", 14, AP_Motors6DOF, _motor_gain_cont[0], 1),
+
+    AP_GROUPINFO("2MOTOR_G_ADJ", 15, AP_Motors6DOF, _motor_gain_cont[1], 1),
+
+    AP_GROUPINFO("3MOTOR_G_ADJ", 16, AP_Motors6DOF, _motor_gain_cont[2], 1),
+
+    AP_GROUPINFO("4MOTOR_G_ADJ", 17, AP_Motors6DOF, _motor_gain_cont[3], 1),
+
+    AP_GROUPINFO("5MOTOR_G_ADJ", 18, AP_Motors6DOF, _motor_gain_cont[4], 1),
+
+    AP_GROUPINFO("6MOTOR_G_ADJ", 19, AP_Motors6DOF, _motor_gain_cont[5], 1),
+
+    AP_GROUPINFO("7MOTOR_G_ADJ", 20, AP_Motors6DOF, _motor_gain_cont[6], 1),
+
+    AP_GROUPINFO("8MOTOR_G_ADJ", 21, AP_Motors6DOF, _motor_gain_cont[7], 1),
+
+
+
     AP_GROUPEND
 };
 
@@ -192,22 +212,22 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
 
     case SUB_FRAME_TUNA:
         _frame_class_string = "EYEROV_TUNA";
-        add_motor_raw_6dof(AP_MOTORS_MOT_1,	    0,	            0,	            1.0,	         0,	                 -1.0f,	            1.0f,	        1);
-        add_motor_raw_6dof(AP_MOTORS_MOT_2,	    0,              0,	            -1.0f,	         0,	                 -1.0f,	            -1.0f,	        2);
-        add_motor_raw_6dof(AP_MOTORS_MOT_3,	    0,              0,	            -1.0f,           0,        	         1.0f,              1.0f,           3);
-        add_motor_raw_6dof(AP_MOTORS_MOT_4,	    0,              0,              1.0f,            0,        	         1.0f,              -1.0f,          4);
-        add_motor_raw_6dof(AP_MOTORS_MOT_5,	    0,              0,	            0, 	             1.0f,	             0,                 0,   	        5);
+        add_motor_raw_6dof(AP_MOTORS_MOT_1,	    0,	            0,	            _motor_gain_cont[0]*1.0,	         0,	                 _motor_gain_cont[0]*-1.0f,	            _motor_gain_cont[0]*1.0f,	        1);
+        add_motor_raw_6dof(AP_MOTORS_MOT_2,	    0,              0,	            _motor_gain_cont[1]*-1.0f,	         0,	                 _motor_gain_cont[1]*-1.0f,	            _motor_gain_cont[1]*-1.0f,	        2);
+        add_motor_raw_6dof(AP_MOTORS_MOT_3,	    0,              0,	            _motor_gain_cont[2]*-1.0f,           0,        	         _motor_gain_cont[2]*1.0f,              _motor_gain_cont[2]*1.0f,           3);
+        add_motor_raw_6dof(AP_MOTORS_MOT_4,	    0,              0,              _motor_gain_cont[3]*1.0f,            0,        	         _motor_gain_cont[3]*1.0f,              _motor_gain_cont[3]*-1.0f,          4);
+        add_motor_raw_6dof(AP_MOTORS_MOT_5,	    0,              0,	            0, 	             _motor_gain_cont[4]*1.0f,	             0,                 0,   	        5);
         break;
 
     case SUB_FRAME_TROUT:
         _frame_class_string = "EYEROV5_TROUT";
-        add_motor_raw_6dof(AP_MOTORS_MOT_1,	    0,	            0,	             1.0f,	         0,	                 -1.0f,	            1.0f,           1);
-        add_motor_raw_6dof(AP_MOTORS_MOT_2,	    0,              0,	            -1.0f,	         0,	                 -1.0f,	            -1.0f,	        2);
-        add_motor_raw_6dof(AP_MOTORS_MOT_3,	    0,              0,	            -1.0f,           0,        	         1.0f,              1.0f,           3);
-        add_motor_raw_6dof(AP_MOTORS_MOT_4,	    0,              0,              1.0f,            0,        	         1.0f,              -1.0f,          4);
-        add_motor_raw_6dof(AP_MOTORS_MOT_5,	    -0.5f,          0.5f,	        0, 	             0.45f,	             0,                 0,   	        5);
-        add_motor_raw_6dof(AP_MOTORS_MOT_6,	    0.5f,           0.5f,	        0, 	             0.45f,	             0,                 0,   	        6);
-        add_motor_raw_6dof(AP_MOTORS_MOT_5,	    0,              -1.0f,	        0, 	             1.0f,	             0,                 0,   	        7);
+        add_motor_raw_6dof(AP_MOTORS_MOT_1,	    0,	            0,	            _motor_gain_cont[0]* 1.0f,	         0,	                 _motor_gain_cont[0]*-1.0f,	            _motor_gain_cont[0]*1.0f,           1);
+        add_motor_raw_6dof(AP_MOTORS_MOT_2,	    0,              0,	            _motor_gain_cont[1]*-1.0f,	         0,	                 _motor_gain_cont[1]*-1.0f,	            _motor_gain_cont[0]*-1.0f,	        2);
+        add_motor_raw_6dof(AP_MOTORS_MOT_3,	    0,              0,	            _motor_gain_cont[2]*-1.0f,           0,        	         _motor_gain_cont[2]*1.0f,              _motor_gain_cont[0]*1.0f,           3);
+        add_motor_raw_6dof(AP_MOTORS_MOT_4,	    0,              0,              _motor_gain_cont[3]*1.0f,            0,        	         _motor_gain_cont[3]*1.0f,              _motor_gain_cont[0]*-1.0f,          4);
+        add_motor_raw_6dof(AP_MOTORS_MOT_5,	    _motor_gain_cont[4]*-0.5f,      _motor_gain_cont[4]*0.5f,	        0, 	             _motor_gain_cont[0]*0.45f,	             0,                 0,   	        5);
+        add_motor_raw_6dof(AP_MOTORS_MOT_6,	    _motor_gain_cont[5]*0.5f,       _motor_gain_cont[5]*0.5f,	        0, 	             _motor_gain_cont[5]*0.45f,	             0,                 0,   	        6);
+        add_motor_raw_6dof(AP_MOTORS_MOT_5,	    0,              _motor_gain_cont[6]*-1.0f,	        0, 	             _motor_gain_cont[6]*1.0f,	             0,                 0,   	        7);
         break;
     
     default:

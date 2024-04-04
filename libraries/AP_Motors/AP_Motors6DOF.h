@@ -67,6 +67,7 @@ protected:
 
     // Parameters
     AP_Int8             _motor_reverse[AP_MOTORS_MAX_NUM_MOTORS];
+    AP_Float            _motor_gain_cont[AP_MOTORS_MAX_NUM_MOTORS];
     AP_Float            _forwardVerticalCouplingFactor;
 
     float               _forward_factor[AP_MOTORS_MAX_NUM_MOTORS]; // each motors contribution to forward/backward
