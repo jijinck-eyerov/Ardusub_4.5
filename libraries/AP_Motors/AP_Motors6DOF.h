@@ -29,6 +29,7 @@ public:
         SUB_FRAME_CUSTOM,
         SUB_FRAME_TUNA,
         SUB_FRAME_TROUT,
+        SUB_FRAME_TSROV,
     } sub_frame_t;
 
     // Override parent

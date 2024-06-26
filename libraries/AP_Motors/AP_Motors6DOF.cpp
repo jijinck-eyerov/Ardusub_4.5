@@ -229,7 +229,15 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         add_motor_raw_6dof(AP_MOTORS_MOT_6,	    _motor_gain_cont[5]*0.5f,       _motor_gain_cont[5]*0.5f,	    0, 	                                 _motor_gain_cont[5]*0.45f,	             0,                                     0,   	                            6);
         add_motor_raw_6dof(AP_MOTORS_MOT_7,	    0,                              _motor_gain_cont[6]*-1.0f,	    0, 	                                 _motor_gain_cont[6]*1.0f,	             0,                                     0,   	                            7);
         break;
-    
+    case SUB_FRAME_TSROV:
+        _frame_class_string = "EYEROV_TSROV";
+        add_motor_raw_6dof(AP_MOTORS_MOT_1,	    0,	                            0,	                            _motor_gain_cont[0]* -1.0f,	         0,	                                    _motor_gain_cont[0]*1.0f,	            0,                                  1);
+        add_motor_raw_6dof(AP_MOTORS_MOT_2,	    0,                              0,	                            _motor_gain_cont[1]*1.0f,	         0,	                                    _motor_gain_cont[1]*1.0f,	            0,                      	        2);
+        add_motor_raw_6dof(AP_MOTORS_MOT_3,	    0,                              0,	                            _motor_gain_cont[2]*-1.0f,           0,        	                            _motor_gain_cont[2]*1.0f,               0,                                  3);
+        add_motor_raw_6dof(AP_MOTORS_MOT_4,	    0,                              0,                              _motor_gain_cont[3]*1.0f,            0,        	                            _motor_gain_cont[3]*1.0f,               0,                                  4);
+        add_motor_raw_6dof(AP_MOTORS_MOT_5,	    0,                              _motor_gain_cont[4]*1.0f,	    0, 	                                 _motor_gain_cont[4]*1.0f,	             0,                                     0,   	                            5);
+        add_motor_raw_6dof(AP_MOTORS_MOT_6,	    0,                              _motor_gain_cont[5]*-1.0f,	    0, 	                                 _motor_gain_cont[5]*-1.0f,	             0,                                     0,   	                            6);
+        break;
     default:
         _frame_class_string = "DEFAULT";
         add_motor_raw_6dof(AP_MOTORS_MOT_1,     0,              0,              -1.0f,          0,                  1.0f,               0,              1);

@@ -370,7 +370,7 @@ const AP_Param::GroupInfo AP_BoardConfig::var_info[] = {
     // @User: Advanced
     AP_GROUPINFO("IO_DSHOT", 28, AP_BoardConfig, state.io_dshot, 0),
 #endif
-    // AP_GROUPINFO("PWM_COUNT", 0, AP_BoardConfig, pwm_count, 8),
+    AP_GROUPINFO("PWM_COUNT", 0, AP_BoardConfig, pwm_count, 8),
     AP_GROUPEND
 };
 
