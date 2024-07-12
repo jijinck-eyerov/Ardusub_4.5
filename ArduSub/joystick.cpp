@@ -62,6 +62,27 @@ void Sub::transform_manual_control_to_rc_override(int16_t x, int16_t y, int16_t 
             int16_t aux6)
 {
 
+    //Use aux1 channel as gain
+    if (aux1 != 0 && aux1 >= 10 && aux1 <=100) {
+        gain = constrain_float(aux1/100.0, 0.1, 1.0);
+    }
+
+    //Use aux2 channel for lights1
+    if (aux2 != 0 && aux2 >= RC_Channels::rc_channel(8)->get_radio_min() && aux2 <= RC_Channels::rc_channel(8)->get_radio_max()) {
+        RC_Channel* chan = RC_Channels::rc_channel(8);
+        uint16_t min = chan->get_radio_min();
+        uint16_t max = chan->get_radio_max();
+        lights1 = constrain_float(aux2, min, max);
+    }
+
+    //Use aux3 channel for lights2
+    if (aux3 != 0 && aux3 >= RC_Channels::rc_channel(9)->get_radio_min() && aux3 <= RC_Channels::rc_channel(9)->get_radio_max()) {
+        RC_Channel* chan = RC_Channels::rc_channel(9);
+        uint16_t min = chan->get_radio_min();
+        uint16_t max = chan->get_radio_max();
+        lights2 = constrain_float(aux3, min, max);       
+    }
+
     float rpyScale = 0.4*gain; // Scale -1000-1000 to -400-400 with gain
     float throttleScale = 0.8*gain*g.throttle_gain; // Scale 0-1000 to 0-800 times gain
     int16_t rpyCenter = 1500;
@@ -72,6 +93,20 @@ void Sub::transform_manual_control_to_rc_override(int16_t x, int16_t y, int16_t 
     // Neutralize camera tilt and pan speed setpoint
     cam_tilt = 1500;
     cam_pan = 1500;
+
+    //Use aux4 channel for camera_tilt
+    if (aux4 != 0 && aux4 >= RC_Channels::rc_channel(7)->get_radio_min() && aux4 <= RC_Channels::rc_channel(7)->get_radio_max()) {
+        RC_Channel* chan = RC_Channels::rc_channel(7);
+        uint16_t min = chan->get_radio_min();
+        uint16_t max = chan->get_radio_max();
+        cam_tilt = constrain_float(aux4, min, max);           
+    }
+
+    if (aux4 == 1) {
+        camera_mount.set_angle_target(0, 0, 0, false);
+        // for some reason the call to set_angle_targets changes the mode to mavlink targeting!
+        camera_mount.set_mode(MAV_MOUNT_MODE_RC_TARGETING);
+    }
 
     uint32_t all_buttons = buttons | (buttons2 << 16);
     // Detect if any shift button is pressed
