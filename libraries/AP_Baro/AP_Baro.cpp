@@ -133,6 +133,12 @@ const AP_Param::GroupInfo AP_Baro::var_info[] = {
     // @Values: 1.0:Freshwater,1.024:Saltwater
     AP_GROUPINFO_FRAME("_SPEC_GRAV", 8, AP_Baro, _specific_gravity, 1.0, AP_PARAM_FRAME_SUB),
 
+    // @Param{Sub}: _ZERO_PRESS
+    // @DisplayName: Zero Pressure Reference (For water depth measurement)
+    // @Description: This sets the zero pressure reference of the fluid when flying an underwater ROV.
+    // @Values: -1.0: Disable, millibar value to use
+    AP_GROUPINFO_FRAME("_ZERO_PRESS", 25, AP_Baro, _zero_pressure, -1.0, AP_PARAM_FRAME_SUB),
+
 #if BARO_MAX_INSTANCES > 1
     // @Param: 2_GND_PRESS
     // @DisplayName: Ground Pressure
@@ -931,7 +937,11 @@ void AP_Baro::update(void)
             } else if (sensors[i].type == BARO_TYPE_WATER) {
                 //101325Pa is sea level air pressure, 9800 Pascal/ m depth in water.
                 //No temperature or depth compensation for density of water.
-                altitude = (sensors[i].ground_pressure - corrected_pressure) / 9800.0f / _specific_gravity;
+                if (_zero_pressure <= -0) {
+                    altitude = (sensors[i].ground_pressure - corrected_pressure) / 9800.0f / _specific_gravity;
+                } else {
+                    altitude = (_zero_pressure - corrected_pressure) / 9800.0f / _specific_gravity;
+                }                
             }
             // sanity check altitude
             sensors[i].alt_ok = !(isnan(altitude) || isinf(altitude));
