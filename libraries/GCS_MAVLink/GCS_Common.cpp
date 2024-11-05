@@ -3579,7 +3579,7 @@ void GCS_MAVLINK::handle_set_gps_global_origin(const mavlink_message_t &msg)
 {
     mavlink_set_gps_global_origin_t packet;
     mavlink_msg_set_gps_global_origin_decode(&msg, &packet);
-
+    
     // sanity check location
     if (!check_latlng(packet.latitude, packet.longitude)) {
         // silently drop the request

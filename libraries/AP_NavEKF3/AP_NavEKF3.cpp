@@ -1397,7 +1397,7 @@ bool NavEKF3::setOriginLLH(const Location &loc)
         // or if the EKF origin has already been set.
         // This is to prevent accidental setting of EKF origin with an
         // invalid position or height or causing upsets from a shifting origin.
-        GCS_SEND_TEXT(MAV_SEVERITY_WARNING, "EKF3 refusing set origin");
+        GCS_SEND_TEXT(MAV_SEVERITY_INFO, "EKF3 override origin");
         // return false;
     }
     bool ret = false;
